@@ -2,6 +2,7 @@
 #include <FastLED.h>
 #include <WiFi.h>
 #include <WiFiUdp.h>
+#include <ESPmDNS.h>
 
 #define UDP_TX_PACKET_MAX_SIZE 1472
 
@@ -38,6 +39,12 @@ void setup() {
   }
   Serial.print("Connected! IP address: ");
   Serial.println(WiFi.localIP());
+  if (!MDNS.begin("udpled_0001")) {
+  Serial.println("Error setting up MDNS responder!");
+    while(1){
+      delay(1000);
+    }
+  }
   Serial.printf("UDP server on port %d\n", localPort);
   Udp.begin(localPort);
 }
